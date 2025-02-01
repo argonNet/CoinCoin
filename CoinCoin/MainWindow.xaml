@@ -54,7 +54,9 @@
                 </DataTemplate>
             </TabControl.Resources>
             
-            <TabItem Header="Tab 1" HeaderTemplate="{StaticResource TabHeaderTemplate}">
+            <TabItem Header="Tab 1" 
+                     
+                     HeaderTemplate="{StaticResource TabHeaderTemplate}">
                 <local:BrowserView />
             </TabItem>
             

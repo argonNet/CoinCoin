@@ -22,12 +22,18 @@ public partial class MainWindow : Window
     }
     
     private void AddTab_Click(object sender, RoutedEventArgs e)
-    { 
+    {
+        var browser = new BrowserView();
         var newTab = new TabItem
         {
             Header = $"Tab",
             HeaderTemplate = (DataTemplate)TabControl.Resources["TabHeaderTemplate"]!,
-            Content = new BrowserView()
+            Content = browser
+        };
+        
+        browser.CurrentUrlChanged += (s, e) =>
+        {
+            newTab.Header = ((BrowserView)s).CurrentUrl?.ToString();
         };
         
         TabControl.Items.Add(newTab);

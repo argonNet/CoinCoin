@@ -24,8 +24,16 @@ public partial class BrowserView : UserControl
                 _currentUrl = value;
                 webView.Source = new Uri(_currentUrl);
                 urlTextBox.Text = CurrentUrl;
+                OnCurrentUrlChanged(nameof(CurrentUrl));
             }
         }
+    }
+    
+    public event PropertyChangedEventHandler CurrentUrlChanged;
+
+    private void OnCurrentUrlChanged(string propertyName)
+    {
+        CurrentUrlChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
     
     async void InitializeWebView()
