@@ -6,41 +6,58 @@
         xmlns:local="clr-namespace:CoinCoin"
         xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="CoinCoin" 
+        Height="450"
+        Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50px"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="50px"/>
-        </Grid.ColumnDefinitions>
 
-        
-        <TextBox x:Name="urlTextBox"
-                 Height="30" 
-                 Margin="10" 
-                 Text="Enter text here" 
-                 FontSize="16"
-                 HorizontalAlignment="Stretch"
-                 TextAlignment="Left"
-                 Grid.Row="0"
-                 Grid.Column="0"/>
-        
-        <Button x:Name="goToButton" 
-                Content="GO" 
-                Width="40px" 
-                Height="30" 
-                Click="goToButton_Click" 
-                Grid.Row="0"
-                Grid.Column="1"/>
-
-        <wpf:WebView2 
-            x:Name="webView" 
-            Source="https://www.duckduckgo.com"  
-            Grid.Row="1"
-            Grid.ColumnSpan="2"/>
+        <TabControl Name="TabControl">
+            <TabControl.Template>
+                <ControlTemplate TargetType="TabControl">
+                    <Grid>
+                        <Border Background="#E0E0E0" Padding="5">
+                            <DockPanel LastChildFill="True">
+                                
+                                <DockPanel LastChildFill="false" 
+                                           HorizontalAlignment="Stretch" 
+                                           DockPanel.Dock="Top">
+                                    
+                                    <TabPanel x:Name="HeaderPanel" 
+                                              DockPanel.Dock="Left" 
+                                              IsItemsHost="True" />
+                                    
+                                    <Button DockPanel.Dock="Right" 
+                                            Content="+" 
+                                            Click="AddTab_Click"></Button>
+                                </DockPanel>
+                                
+                                <ContentPresenter x:Name="ContentSite"
+                                                  DockPanel.Dock="Top" 
+                                                  ContentSource="SelectedContent" 
+                                                  Margin="1"/>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </TabControl.Template>
+            
+            <TabControl.Resources>
+                <DataTemplate x:Key="TabHeaderTemplate">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding}" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <Button Content="X" 
+                                Width="16" 
+                                Height="16" 
+                                Click="CloseTab_Click" 
+                                Tag="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.Resources>
+            
+            <TabItem Header="Tab 1" HeaderTemplate="{StaticResource TabHeaderTemplate}">
+                <local:BrowserView />
+            </TabItem>
+            
+        </TabControl>
     </Grid>
 </Window>
